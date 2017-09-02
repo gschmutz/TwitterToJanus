@@ -1,0 +1,74 @@
+package kafka.sample.producer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Random;
+
+import kafka.javaapi.producer.Producer;
+import kafka.producer.KeyedMessage;
+import kafka.producer.ProducerConfig;
+
+import org.apache.avro.io.DatumWriter;
+import org.apache.avro.io.Encoder;
+import org.apache.avro.io.EncoderFactory;
+import org.apache.avro.specific.SpecificDatumWriter;
+
+import ch.trivadis.sample.twitter.avro.v1.TwitterStatusUpdate;
+
+public class KafkaProducer  {
+	private Producer<Integer, byte[]> producer = null;
+	private String kafkaHostnames = "<kafka-broker-hostname>:9092";
+	private String kafkaTopicTweetStatus = "tweet";
+
+	private Producer<Integer, byte[]> connect() {
+		Producer<Integer, byte[]> producer = null;
+    	
+		Properties props = new Properties();
+    	props.put("metadata.broker.list", kafkaHostnames);
+    	props.put("request.required.acks", "1");
+    	props.put("key.serializer.class", "kafka.sample.producer.IntegerEncoder");
+    	//props.put("partitioner.class", "kafka.sample.producer.SimplePartitioner");
+    	props.put("producer.type", "sync");
+    	props.put("compression.codec", "1");
+    	try {
+    		producer = new kafka.javaapi.producer.Producer<Integer, byte[]>(new ProducerConfig(props));
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return producer;
+	}
+	
+	public void produce(TwitterStatusUpdate status) {
+        final Random rnd = new Random();
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        DatumWriter<TwitterStatusUpdate> writer = new SpecificDatumWriter<TwitterStatusUpdate>(TwitterStatusUpdate.class);
+        Encoder encoder = EncoderFactory.get().binaryEncoder(out, null);
+        try {
+			writer.write(status, encoder);
+	        encoder.flush();
+	        out.close();
+		} catch (IOException ioe) {
+			throw new RuntimeException(ioe);
+		}
+        
+        if (producer == null) {
+        	producer = connect();
+        }
+        
+        Integer key = rnd.nextInt(255);
+        KeyedMessage<Integer,byte[]> msg = new KeyedMessage<Integer, byte[]>(kafkaTopicTweetStatus, key, out.toByteArray());
+        if (producer !=null) {
+        	try {
+            	System.out.println("Sending to Kafka " + status.getCreatedAt() + "/" + status.getTweetId());
+        		producer.send(msg);
+        	} catch (Exception e) {
+        		e.printStackTrace();
+        	}
+        	
+        }
+		
+	}
+
+}

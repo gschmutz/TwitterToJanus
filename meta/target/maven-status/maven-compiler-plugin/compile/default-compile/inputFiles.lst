@@ -1,0 +1,9 @@
+/home/cas/workspace/stream-processing/meta/src/main/java/twitter/sample/domain/Tweet.java
+/home/cas/workspace/stream-processing/meta/target/generated-sources/avro/ch/trivadis/sample/twitter/avro/v1/TwitterUser.java
+/home/cas/workspace/stream-processing/meta/target/generated-sources/avro/ch/trivadis/sample/twitter/avro/v1/TwitterUserMentionEntity.java
+/home/cas/workspace/stream-processing/meta/target/generated-sources/avro/ch/trivadis/sample/twitter/avro/v1/TwitterURLEntity.java
+/home/cas/workspace/stream-processing/meta/src/main/java/avro/sample/twitter/DateUtil.java
+/home/cas/workspace/stream-processing/meta/target/generated-sources/avro/ch/trivadis/sample/twitter/avro/v1/TwitterStatusUpdate.java
+/home/cas/workspace/stream-processing/meta/target/generated-sources/avro/ch/trivadis/sample/twitter/avro/v1/TwitterHashtagEntity.java
+/home/cas/workspace/stream-processing/meta/src/main/java/twitter/sample/domain/GranularityEnum.java
+/home/cas/workspace/stream-processing/meta/src/main/java/avro/sample/twitter/TwitterStatusUpdateConverter.java

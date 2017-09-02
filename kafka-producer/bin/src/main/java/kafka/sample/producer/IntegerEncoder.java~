@@ -1,0 +1,22 @@
+package kafka.sample.producer;
+
+import kafka.serializer.Encoder;
+import kafka.utils.VerifiableProperties;
+
+import com.google.common.primitives.Ints;
+
+public class IntegerEncoder implements Encoder<Integer> {
+
+	// have to implement this constructor, otherwise the Encoder won't work!
+	public IntegerEncoder(VerifiableProperties props) {
+		
+	}
+	
+	@Override
+	public byte[] toBytes(Integer buffer) {
+		System.out.println ("Integer in IntegerEncoder: " + buffer);
+		return Ints.toByteArray(buffer.intValue());
+	}
+	
+
+}
