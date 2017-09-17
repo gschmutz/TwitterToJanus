@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+Test set: TestGraphRepository
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 21.218 sec <<< FAILURE! - in TestGraphRepository
+persist(TestGraphRepository)  Time elapsed: 21.077 sec  <<< ERROR!
+java.lang.IllegalArgumentException: Could not instantiate implementation: org.janusgraph.diskstorage.cassandra.astyanax.AstyanaxStoreManager
+	at com.netflix.astyanax.connectionpool.impl.SimpleHostConnectionPool.waitForConnection(SimpleHostConnectionPool.java:231)
+	at com.netflix.astyanax.connectionpool.impl.SimpleHostConnectionPool.borrowConnection(SimpleHostConnectionPool.java:198)
+	at com.netflix.astyanax.connectionpool.impl.RoundRobinExecuteWithFailover.borrowConnection(RoundRobinExecuteWithFailover.java:84)
+	at com.netflix.astyanax.connectionpool.impl.AbstractExecuteWithFailoverImpl.tryOperation(AbstractExecuteWithFailoverImpl.java:117)
+	at com.netflix.astyanax.connectionpool.impl.AbstractHostPartitionConnectionPool.executeWithFailover(AbstractHostPartitionConnectionPool.java:352)
+	at com.netflix.astyanax.thrift.ThriftClusterImpl.executeSchemaChangeOperation(ThriftClusterImpl.java:146)
+	at com.netflix.astyanax.thrift.ThriftClusterImpl.internalCreateKeyspace(ThriftClusterImpl.java:321)
+	at com.netflix.astyanax.thrift.ThriftClusterImpl.addKeyspace(ThriftClusterImpl.java:294)
+	at org.janusgraph.diskstorage.cassandra.astyanax.AstyanaxStoreManager.ensureKeyspaceExists(AstyanaxStoreManager.java:585)
+	at org.janusgraph.diskstorage.cassandra.astyanax.AstyanaxStoreManager.<init>(AstyanaxStoreManager.java:302)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.janusgraph.util.system.ConfigurationUtil.instantiate(ConfigurationUtil.java:58)
+	at org.janusgraph.diskstorage.Backend.getImplementationClass(Backend.java:477)
+	at org.janusgraph.diskstorage.Backend.getStorageManager(Backend.java:409)
+	at org.janusgraph.graphdb.configuration.GraphDatabaseConfiguration.<init>(GraphDatabaseConfiguration.java:1353)
+	at org.janusgraph.core.JanusGraphFactory.open(JanusGraphFactory.java:107)
+	at org.janusgraph.core.JanusGraphFactory.open(JanusGraphFactory.java:97)
+	at org.janusgraph.core.JanusGraphFactory$Builder.open(JanusGraphFactory.java:152)
+	at ch.casbd.graph.GraphRepository.<init>(GraphRepository.java:39)
+	at TestGraphRepository.persist(TestGraphRepository.java:30)
+
